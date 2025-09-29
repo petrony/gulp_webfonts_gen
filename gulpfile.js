@@ -12,13 +12,16 @@ const paths = {
   demo: 'dist/demo/'
 };
 
+// Очищення dist
 export const cleanDist = () => {
   return gulp.src('dist', { read: false, allowEmpty: true }).pipe(clean());
 };
 
-// Конвертує всі .ttf у web-формати за допомогою Fontmin
+// Конвертація + копіювання оригінальних TTF
 export const convertFonts = (done) => {
-  const files = fs.readdirSync(paths.src).filter(f => f.endsWith('.ttf'));
+  const files = fs
+    .readdirSync(paths.src)
+    .filter(f => f.endsWith('.ttf'));
 
   if (files.length === 0) {
     console.log('⚠️ Немає .ttf файлів у src/fonts/');
@@ -27,8 +30,14 @@ export const convertFonts = (done) => {
   }
 
   const tasks = files.map(fontFile => {
+    const srcPath = path.join(paths.src, fontFile);
+
+    // 1) Копіюємо оригінальний TTF у dist
+    gulp.src(srcPath).pipe(gulp.dest(paths.dist));
+
+    // 2) Конвертуємо ttf → web-формати
     const fontmin = new Fontmin()
-      .src(path.join(paths.src, fontFile))
+      .src(srcPath)
       .use(Fontmin.ttf2eot())
       .use(Fontmin.ttf2woff())
       .use(Fontmin.ttf2woff2())
@@ -36,9 +45,9 @@ export const convertFonts = (done) => {
       .dest(paths.dist);
 
     return new Promise((resolve, reject) => {
-      fontmin.run((err, files) => {
+      fontmin.run((err, out) => {
         if (err) reject(err);
-        else resolve(files);
+        else resolve(out);
       });
     });
   });
@@ -51,13 +60,12 @@ export const convertFonts = (done) => {
     });
 };
 
+// Генерація CSS з @font-face
 export const generateCSS = () => {
-  const files = fs.readdirSync(paths.dist);
-  const fontFiles = files.filter(file => file.endsWith('.ttf'));
+  const files = fs.readdirSync(paths.dist).filter(file => file.endsWith('.ttf'));
 
   let css = '';
-
-  fontFiles.forEach(file => {
+  files.forEach(file => {
     const fontName = path.basename(file, path.extname(file));
     css += `
 @font-face {
@@ -77,9 +85,9 @@ export const generateCSS = () => {
   return file('fonts.css', css, { src: true }).pipe(gulp.dest(paths.css));
 };
 
+// Генерація демо-сторінки
 export const generateDemo = () => {
-  const files = fs.readdirSync(paths.dist);
-  const fontFiles = files.filter(file => file.endsWith('.ttf'));
+  const files = fs.readdirSync(paths.dist).filter(file => file.endsWith('.ttf'));
 
   let html = `
 <!DOCTYPE html>
@@ -97,7 +105,7 @@ export const generateDemo = () => {
   <h1>Font Demo</h1>
 `;
 
-  fontFiles.forEach(file => {
+  files.forEach(file => {
     const fontName = path.basename(file, path.extname(file));
     html += `<div class="sample" style="font-family: '${fontName}'">Sample Text (${fontName})</div>\n`;
   });
@@ -107,6 +115,7 @@ export const generateDemo = () => {
   return file('index.html', html, { src: true }).pipe(gulp.dest(paths.demo));
 };
 
+// Основне завдання
 export const build = gulp.series(
   cleanDist,
   convertFonts,

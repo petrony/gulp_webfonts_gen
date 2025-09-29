@@ -1,0 +1,168 @@
+
+@font-face {
+  font-family: 'plusjakartasans-bold';
+  src: url('../fonts/plusjakartasans-bold.eot');
+  src: url('../fonts/plusjakartasans-bold.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-bold.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-bold.woff') format('woff'),
+       url('../fonts/plusjakartasans-bold.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-bold.svg#plusjakartasans-bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-bolditalic';
+  src: url('../fonts/plusjakartasans-bolditalic.eot');
+  src: url('../fonts/plusjakartasans-bolditalic.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-bolditalic.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-bolditalic.woff') format('woff'),
+       url('../fonts/plusjakartasans-bolditalic.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-bolditalic.svg#plusjakartasans-bolditalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-extrabold';
+  src: url('../fonts/plusjakartasans-extrabold.eot');
+  src: url('../fonts/plusjakartasans-extrabold.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-extrabold.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-extrabold.woff') format('woff'),
+       url('../fonts/plusjakartasans-extrabold.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-extrabold.svg#plusjakartasans-extrabold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-extrabolditalic';
+  src: url('../fonts/plusjakartasans-extrabolditalic.eot');
+  src: url('../fonts/plusjakartasans-extrabolditalic.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-extrabolditalic.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-extrabolditalic.woff') format('woff'),
+       url('../fonts/plusjakartasans-extrabolditalic.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-extrabolditalic.svg#plusjakartasans-extrabolditalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-extralight';
+  src: url('../fonts/plusjakartasans-extralight.eot');
+  src: url('../fonts/plusjakartasans-extralight.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-extralight.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-extralight.woff') format('woff'),
+       url('../fonts/plusjakartasans-extralight.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-extralight.svg#plusjakartasans-extralight') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-extralightitalic';
+  src: url('../fonts/plusjakartasans-extralightitalic.eot');
+  src: url('../fonts/plusjakartasans-extralightitalic.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-extralightitalic.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-extralightitalic.woff') format('woff'),
+       url('../fonts/plusjakartasans-extralightitalic.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-extralightitalic.svg#plusjakartasans-extralightitalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-italic';
+  src: url('../fonts/plusjakartasans-italic.eot');
+  src: url('../fonts/plusjakartasans-italic.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-italic.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-italic.woff') format('woff'),
+       url('../fonts/plusjakartasans-italic.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-italic.svg#plusjakartasans-italic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-light';
+  src: url('../fonts/plusjakartasans-light.eot');
+  src: url('../fonts/plusjakartasans-light.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-light.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-light.woff') format('woff'),
+       url('../fonts/plusjakartasans-light.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-light.svg#plusjakartasans-light') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-lightitalic';
+  src: url('../fonts/plusjakartasans-lightitalic.eot');
+  src: url('../fonts/plusjakartasans-lightitalic.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-lightitalic.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-lightitalic.woff') format('woff'),
+       url('../fonts/plusjakartasans-lightitalic.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-lightitalic.svg#plusjakartasans-lightitalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-medium';
+  src: url('../fonts/plusjakartasans-medium.eot');
+  src: url('../fonts/plusjakartasans-medium.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-medium.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-medium.woff') format('woff'),
+       url('../fonts/plusjakartasans-medium.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-medium.svg#plusjakartasans-medium') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-mediumitalic';
+  src: url('../fonts/plusjakartasans-mediumitalic.eot');
+  src: url('../fonts/plusjakartasans-mediumitalic.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-mediumitalic.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-mediumitalic.woff') format('woff'),
+       url('../fonts/plusjakartasans-mediumitalic.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-mediumitalic.svg#plusjakartasans-mediumitalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-regular';
+  src: url('../fonts/plusjakartasans-regular.eot');
+  src: url('../fonts/plusjakartasans-regular.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-regular.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-regular.woff') format('woff'),
+       url('../fonts/plusjakartasans-regular.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-regular.svg#plusjakartasans-regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-semibold';
+  src: url('../fonts/plusjakartasans-semibold.eot');
+  src: url('../fonts/plusjakartasans-semibold.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-semibold.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-semibold.woff') format('woff'),
+       url('../fonts/plusjakartasans-semibold.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-semibold.svg#plusjakartasans-semibold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'plusjakartasans-semibolditalic';
+  src: url('../fonts/plusjakartasans-semibolditalic.eot');
+  src: url('../fonts/plusjakartasans-semibolditalic.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/plusjakartasans-semibolditalic.woff2') format('woff2'),
+       url('../fonts/plusjakartasans-semibolditalic.woff') format('woff'),
+       url('../fonts/plusjakartasans-semibolditalic.ttf') format('truetype'),
+       url('../fonts/plusjakartasans-semibolditalic.svg#plusjakartasans-semibolditalic') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
