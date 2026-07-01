@@ -21,16 +21,16 @@ export const build = gulp.series(
   cleanDist,
   convertFonts,
   generateCSS,
-  generateDemo
+  generateDemo,
 );
 ```
 
-| Task            | What it does                                                                                                   |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `cleanDist`       | Deletes the entire `dist/` folder before each build, so output never contains stale files from a previous run.     |
-| `convertFonts`    | Reads every `.ttf`/`.otf` file in `src/fonts/`. `.otf` files are first converted to `.ttf` (via [`fontmin`](https://github.com/ecomfe/fontmin)'s `otf2ttf`); `.ttf` files are copied as-is. Every resulting `.ttf` is then converted to `.eot`, `.woff`, `.woff2`, and `.svg` using fontmin's respective plugins. |
-| `generateCSS`     | Scans `dist/fonts/` for `.ttf` files and writes one `@font-face` block per font into `dist/css/fonts.css`, using the font's filename (without extension) as the `font-family` name. |
-| `generateDemo`    | Scans the same `.ttf` files and writes `dist/demo/index.html`, a minimal page that links `fonts.css` and shows a sample line of text set in each font. |
+| Task           | What it does                                                                                                                                                                                                                                                                                                      |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cleanDist`    | Deletes the entire `dist/` folder before each build, so output never contains stale files from a previous run.                                                                                                                                                                                                    |
+| `convertFonts` | Reads every `.ttf`/`.otf` file in `src/fonts/`. `.otf` files are first converted to `.ttf` (via [`fontmin`](https://github.com/ecomfe/fontmin)'s `otf2ttf`); `.ttf` files are copied as-is. Every resulting `.ttf` is then converted to `.eot`, `.woff`, `.woff2`, and `.svg` using fontmin's respective plugins. |
+| `generateCSS`  | Scans `dist/fonts/` for `.ttf` files and writes one `@font-face` block per font into `dist/css/fonts.css`, using the font's filename (without extension) as the `font-family` name.                                                                                                                               |
+| `generateDemo` | Scans the same `.ttf` files and writes `dist/demo/index.html`, a minimal page that links `fonts.css` and shows a sample line of text set in each font.                                                                                                                                                            |
 
 If `src/fonts/` contains no `.ttf`/`.otf` files, `convertFonts` logs a warning and exits gracefully instead of failing.
 
@@ -40,13 +40,14 @@ For a font file named `MyFont.ttf` (or `MyFont.otf`), the generated CSS looks li
 
 ```css
 @font-face {
-  font-family: 'MyFont';
-  src: url('../fonts/MyFont.eot');
-  src: url('../fonts/MyFont.eot?#iefix') format('embedded-opentype'),
-       url('../fonts/MyFont.woff2') format('woff2'),
-       url('../fonts/MyFont.woff') format('woff'),
-       url('../fonts/MyFont.ttf') format('truetype'),
-       url('../fonts/MyFont.svg#MyFont') format('svg');
+  font-family: "MyFont";
+  src: url("../fonts/MyFont.eot");
+  src:
+    url("../fonts/MyFont.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/MyFont.woff2") format("woff2"),
+    url("../fonts/MyFont.woff") format("woff"),
+    url("../fonts/MyFont.ttf") format("truetype"),
+    url("../fonts/MyFont.svg#MyFont") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -121,25 +122,25 @@ Note that `generateCSS` and `generateDemo` both depend on `.ttf` files already e
 
 ## Supported input → output
 
-| Input   | Copied/converted to `.ttf`? | Also generated                     |
-| -------- | ----------------------------- | ------------------------------------ |
-| `.ttf`   | Copied as-is                  | `.eot`, `.woff`, `.woff2`, `.svg`    |
-| `.otf`   | Converted via `otf2ttf`       | `.eot`, `.woff`, `.woff2`, `.svg`    |
+| Input  | Copied/converted to `.ttf`? | Also generated                    |
+| ------ | --------------------------- | --------------------------------- |
+| `.ttf` | Copied as-is                | `.eot`, `.woff`, `.woff2`, `.svg` |
+| `.otf` | Converted via `otf2ttf`     | `.eot`, `.woff`, `.woff2`, `.svg` |
 
 ## Dependencies
 
-| Package             | Purpose                                                        |
-| --------------------- | ------------------------------------------------------------------ |
-| `gulp`                 | Task runner (v5)                                                  |
-| `fontmin`               | Core font conversion engine (OTF→TTF, TTF→EOT/WOFF/WOFF2/SVG)      |
-| `gulp-clean`            | Removes `dist/` before each build                                  |
-| `gulp-file`             | Writes generated in-memory content (`fonts.css`, `index.html`) to disk |
+| Package      | Purpose                                                                |
+| ------------ | ---------------------------------------------------------------------- |
+| `gulp`       | Task runner (v5)                                                       |
+| `fontmin`    | Core font conversion engine (OTF→TTF, TTF→EOT/WOFF/WOFF2/SVG)          |
+| `gulp-clean` | Removes `dist/` before each build                                      |
+| `gulp-file`  | Writes generated in-memory content (`fonts.css`, `index.html`) to disk |
 
 The `package.json` also lists `gulp-fonter`, `gulp-fonter-unx`, `gulp-iconfont`, `gulp-iconfont-css`, `gulp-rename`, `gulp-svg2ttf`, and `otf2ttf` as `devDependencies` — these aren't currently wired into `gulpfile.js`'s task chain, but are available if you want to extend the pipeline (e.g. building an icon font from SVGs via `gulp-iconfont`).
 
 ## Troubleshooting
 
-- **`⚠️ Немає .ttf або .otf файлів у src/fonts/`** — no matching font files were found directly inside `src/fonts/`. Make sure files are placed at the top level of that folder (not in a nested subfolder) and have a `.ttf` or `.otf` extension.
+- **`⚠️ None .ttf або .otf файлів у src/fonts/`** — no matching font files were found directly inside `src/fonts/`. Make sure files are placed at the top level of that folder (not in a nested subfolder) and have a `.ttf` or `.otf` extension.
 - **CSS shows wrong/duplicate font-family names for multiple weights** — see the note above about `generateCSS`; edit `dist/css/fonts.css` manually to set correct `font-family`/`font-weight`/`font-style` per weight.
 - **`.eot` file needed for very old IE support only** — modern projects can typically drop the `.eot`/`.svg` fallbacks and the `?#iefix` line entirely if you don't need to support Internet Explorer; `.woff2` + `.woff` covers effectively all current browsers.
 
