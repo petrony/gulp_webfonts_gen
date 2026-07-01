@@ -1,43 +1,43 @@
-import gulp from 'gulp';
-import clean from 'gulp-clean';
-import file from 'gulp-file';
-import path from 'path';
-import fs from 'fs';
-import Fontmin from 'fontmin';
+import gulp from "gulp";
+import clean from "gulp-clean";
+import file from "gulp-file";
+import path from "path";
+import fs from "fs";
+import Fontmin from "fontmin";
 
 const paths = {
-  src: 'src/fonts/',
-  dist: 'dist/fonts/',
-  css: 'dist/css/',
-  demo: 'dist/demo/'
+  src: "src/fonts/",
+  dist: "dist/fonts/",
+  css: "dist/css/",
+  demo: "dist/demo/",
 };
 
-// Очищення dist
+// Cleaning up dist
 export const cleanDist = () => {
-  return gulp.src('dist', { read: false, allowEmpty: true }).pipe(clean());
+  return gulp.src("dist", { read: false, allowEmpty: true }).pipe(clean());
 };
 
-// Конвертація + копіювання оригінальних TTF/OTF
+// Conversion + copying of original TTF/OTF files
 export const convertFonts = (done) => {
   const files = fs
     .readdirSync(paths.src)
-    .filter(f => f.endsWith('.ttf') || f.endsWith('.otf'));
+    .filter((f) => f.endsWith(".ttf") || f.endsWith(".otf"));
 
   if (files.length === 0) {
-    console.log('⚠️ Немає .ttf або .otf файлів у src/fonts/');
+    console.log("⚠️ Немає .ttf або .otf файлів у src/fonts/");
     done();
     return;
   }
 
-  const tasks = files.map(fontFile => {
+  const tasks = files.map((fontFile) => {
     const srcPath = path.join(paths.src, fontFile);
     const ext = path.extname(fontFile).toLowerCase();
     const baseName = path.basename(fontFile, ext);
     const ttfPath = path.join(paths.dist, `${baseName}.ttf`);
 
-    // Якщо це OTF — конвертуємо в TTF перед подальшою обробкою
+    // If it’s an OTF file, convert it to TTF before further processing
     const convertToTtf = () => {
-      if (ext === '.otf') {
+      if (ext === ".otf") {
         console.log(`🔄 Конвертація ${fontFile} → ${baseName}.ttf`);
         const fontminOtf = new Fontmin()
           .src(srcPath)
@@ -48,20 +48,21 @@ export const convertFonts = (done) => {
           fontminOtf.run((err) => (err ? reject(err) : resolve()));
         });
       } else {
-        // Копіюємо TTF як є
+        // Copy the TTF file as it is
         return new Promise((resolve, reject) => {
-          gulp.src(srcPath)
+          gulp
+            .src(srcPath)
             .pipe(gulp.dest(paths.dist))
-            .on('end', resolve)
-            .on('error', reject);
+            .on("end", resolve)
+            .on("error", reject);
         });
       }
     };
 
-    // Потім конвертуємо ttf → web-формати
+    // Then we convert TTF to web formats
     const convertToWeb = () => {
       const fontmin = new Fontmin()
-        .src(ext === '.otf' ? ttfPath : srcPath)
+        .src(ext === ".otf" ? ttfPath : srcPath)
         .use(Fontmin.ttf2eot())
         .use(Fontmin.ttf2woff())
         .use(Fontmin.ttf2woff2())
@@ -78,21 +79,23 @@ export const convertFonts = (done) => {
 
   Promise.all(tasks)
     .then(() => {
-      console.log('✅ Усі шрифти успішно конвертовані!');
+      console.log("✅ Усі шрифти успішно конвертовані!");
       done();
     })
-    .catch(err => {
-      console.error('❌ Помилка при конвертації шрифтів:', err);
+    .catch((err) => {
+      console.error("❌ Помилка при конвертації шрифтів:", err);
       done(err);
     });
 };
 
-// Генерація CSS з @font-face
+// Generating CSS with @font-face
 export const generateCSS = () => {
-  const files = fs.readdirSync(paths.dist).filter(file => file.endsWith('.ttf'));
+  const files = fs
+    .readdirSync(paths.dist)
+    .filter((file) => file.endsWith(".ttf"));
 
-  let css = '';
-  files.forEach(file => {
+  let css = "";
+  files.forEach((file) => {
     const fontName = path.basename(file, path.extname(file));
     css += `
 @font-face {
@@ -109,12 +112,14 @@ export const generateCSS = () => {
 `;
   });
 
-  return file('fonts.css', css, { src: true }).pipe(gulp.dest(paths.css));
+  return file("fonts.css", css, { src: true }).pipe(gulp.dest(paths.css));
 };
 
-// Генерація демо-сторінки
+// Generating a demo page
 export const generateDemo = () => {
-  const files = fs.readdirSync(paths.dist).filter(file => file.endsWith('.ttf'));
+  const files = fs
+    .readdirSync(paths.dist)
+    .filter((file) => file.endsWith(".ttf"));
 
   let html = `
 <!DOCTYPE html>
@@ -132,22 +137,22 @@ export const generateDemo = () => {
   <h1>Font Demo</h1>
 `;
 
-  files.forEach(file => {
+  files.forEach((file) => {
     const fontName = path.basename(file, path.extname(file));
     html += `<div class="sample" style="font-family: '${fontName}'">Sample Text (${fontName})</div>\n`;
   });
 
   html += `</body>\n</html>`;
 
-  return file('index.html', html, { src: true }).pipe(gulp.dest(paths.demo));
+  return file("index.html", html, { src: true }).pipe(gulp.dest(paths.demo));
 };
 
-// Основне завдання
+// Main task
 export const build = gulp.series(
   cleanDist,
   convertFonts,
   generateCSS,
-  generateDemo
+  generateDemo,
 );
 
 export default build;
