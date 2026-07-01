@@ -17,43 +17,70 @@ export const cleanDist = () => {
   return gulp.src('dist', { read: false, allowEmpty: true }).pipe(clean());
 };
 
-// Конвертація + копіювання оригінальних TTF
+// Конвертація + копіювання оригінальних TTF/OTF
 export const convertFonts = (done) => {
   const files = fs
     .readdirSync(paths.src)
-    .filter(f => f.endsWith('.ttf'));
+    .filter(f => f.endsWith('.ttf') || f.endsWith('.otf'));
 
   if (files.length === 0) {
-    console.log('⚠️ Немає .ttf файлів у src/fonts/');
+    console.log('⚠️ Немає .ttf або .otf файлів у src/fonts/');
     done();
     return;
   }
 
   const tasks = files.map(fontFile => {
     const srcPath = path.join(paths.src, fontFile);
+    const ext = path.extname(fontFile).toLowerCase();
+    const baseName = path.basename(fontFile, ext);
+    const ttfPath = path.join(paths.dist, `${baseName}.ttf`);
 
-    // 1) Копіюємо оригінальний TTF у dist
-    gulp.src(srcPath).pipe(gulp.dest(paths.dist));
+    // Якщо це OTF — конвертуємо в TTF перед подальшою обробкою
+    const convertToTtf = () => {
+      if (ext === '.otf') {
+        console.log(`🔄 Конвертація ${fontFile} → ${baseName}.ttf`);
+        const fontminOtf = new Fontmin()
+          .src(srcPath)
+          .use(Fontmin.otf2ttf())
+          .dest(paths.dist);
 
-    // 2) Конвертуємо ttf → web-формати
-    const fontmin = new Fontmin()
-      .src(srcPath)
-      .use(Fontmin.ttf2eot())
-      .use(Fontmin.ttf2woff())
-      .use(Fontmin.ttf2woff2())
-      .use(Fontmin.ttf2svg())
-      .dest(paths.dist);
+        return new Promise((resolve, reject) => {
+          fontminOtf.run((err) => (err ? reject(err) : resolve()));
+        });
+      } else {
+        // Копіюємо TTF як є
+        return new Promise((resolve, reject) => {
+          gulp.src(srcPath)
+            .pipe(gulp.dest(paths.dist))
+            .on('end', resolve)
+            .on('error', reject);
+        });
+      }
+    };
 
-    return new Promise((resolve, reject) => {
-      fontmin.run((err, out) => {
-        if (err) reject(err);
-        else resolve(out);
+    // Потім конвертуємо ttf → web-формати
+    const convertToWeb = () => {
+      const fontmin = new Fontmin()
+        .src(ext === '.otf' ? ttfPath : srcPath)
+        .use(Fontmin.ttf2eot())
+        .use(Fontmin.ttf2woff())
+        .use(Fontmin.ttf2woff2())
+        .use(Fontmin.ttf2svg())
+        .dest(paths.dist);
+
+      return new Promise((resolve, reject) => {
+        fontmin.run((err, out) => (err ? reject(err) : resolve(out)));
       });
-    });
+    };
+
+    return convertToTtf().then(convertToWeb);
   });
 
   Promise.all(tasks)
-    .then(() => done())
+    .then(() => {
+      console.log('✅ Усі шрифти успішно конвертовані!');
+      done();
+    })
     .catch(err => {
       console.error('❌ Помилка при конвертації шрифтів:', err);
       done(err);
